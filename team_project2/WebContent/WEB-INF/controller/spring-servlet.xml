@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-4.3.xsd"
+	>
+
+	<!-- mybatis세팅 -->
+	<!-- dataSource : DB데이터소스 
+		DB 커넥션 정보 DataSource타입
+	-->
+	
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close"
+		p:driverClassName="oracle.jdbc.driver.OracleDriver"
+		p:url="jdbc:oracle:thin:@nullmaster.iptime.org:3000:orcl"
+		p:username="git03"
+		p:password="git03"/>
+		
+	<!-- 커넥션 풀 역활
+		DB정보 : dataSource, 매퍼위치와 typeAias에 대한 정보 : mybatis-config.xml에 설정할 것이 있는 파일
+	 	커넥션 connection == session
+	 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="configLocation" value="/WEB-INF/mybatis/mybatis-config.xml"/>
+	</bean>
+	
+	<!-- sql문날릴때 필요한 아이
+		@Autowired해서 아래 빈을 가져다 사용하게됨 ex) dao. ~ 같은느낌
+	 -->
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate" 
+	destroy-method="clearCache">
+		<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"/>
+	</bean>
+</beans>
