@@ -9,11 +9,17 @@
 	http://www.springframework.org/schema/context/spring-context-4.3.xsd"
 	>
 
+
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/view/"/>
+		<property name="suffix" value=".jsp"/>
+		<property name="order" value="1"/>
+	</bean>	
+
 	<!-- mybatis세팅 -->
 	<!-- dataSource : DB데이터소스 
 		DB 커넥션 정보 DataSource타입
 	-->
-	
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close"
 		p:driverClassName="oracle.jdbc.driver.OracleDriver"
@@ -37,4 +43,6 @@
 	destroy-method="clearCache">
 		<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"/>
 	</bean>
+	
+		
 </beans>
