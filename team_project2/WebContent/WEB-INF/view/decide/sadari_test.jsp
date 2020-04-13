@@ -7,10 +7,6 @@
 
 <script language="javascript" type="text/javascript">
 
-function getResult( no ){
-	document.getElementById("result").innerHTML = no;
-}
-
 var Yl = {
  getEl : function(strId){
   if (document.getElementById) return document.getElementById(strId); 
@@ -294,9 +290,12 @@ var Yl = {
    }else{
     
     for(var i=0; i<this.arrVerDiv.length; i++){
-     if(nEx==parseInt(this.arrVerDiv[i].style.left)){
-		document.getElementById("result").innerHTML ="사다리결과는 :" + this.arrBotDiv[i].innerHTML;       
-      	this.arrGoDiv[pno].innerHTML = '<input type="button" value="확인" onClick="Yl.start('+pno+')">';      
+     if(nEx==parseInt(this.arrVerDiv[i].style.left)){      
+      
+      this.arrBotDiv[i].innerHTML = "<b>"+(pno+1)+"</b><br>"+this.arrBotDiv[i].innerHTML;
+            
+      this.arrGoDiv[pno].innerHTML = '<input type="button" value="확인" onClick="Yl.start('+pno+')">';
+      
       break;
      }
     }  
@@ -362,6 +361,6 @@ document.onkeydown = function(e){
  
 
 <div id="div_body" style="width:1000px;height:450px;border:1px solid #CCCCCC;position:relative;"></div>
-<div id="result"></div>
+
 </body>
 </html>

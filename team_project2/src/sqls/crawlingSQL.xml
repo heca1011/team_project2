@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="crawling">
+  		<insert id ="insertBasic" parameterType="CrawlingVO">
+  			insert into foodInfo(url, name, type, address, score
+  			<if test="phone != null">
+  				, phone
+  			</if>
+  			) 
+  			values(#{url}, #{name}, #{type}, #{address}, #{score}
+  			<if test="phone != null">
+  				, #{phone}
+  			</if>
+  			)
+  		</insert>
+  		
+  		<update id="updateMenu" parameterType="CrawlingVO">
+  			update foodInfo set menu=#{menu}
+	  		where url = #{url}
+  		</update>
+  		
+  		<update id="updatePrice" parameterType="CrawlingVO">
+  			update foodInfo set price=#{price}
+	  		where url = #{url}
+  		</update>
+  		
+  		<select id="checkURL" parameterType="String" resultType="int">
+  			select count(*) from foodInfo where url = #{url}
+  		</select>
+  		
+  		<select id="selectAll" parameterType="String" resultType="CrawlingVo">
+  			select * from foodinfo where url = #{url}
+  		</select>
+  </mapper>

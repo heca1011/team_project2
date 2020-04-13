@@ -143,6 +143,18 @@
 	    <version>1.2</version>
 	</dependency>
 	
+	<!-- https://mvnrepository.com/artifact/org.jsoup/jsoup 
+	자바 크롤링 세팅
+	-->
+	<dependency>
+      <groupId>org.seleniumhq.selenium</groupId>
+      <artifactId>selenium-java</artifactId>
+      <version>3.141.59</version>
+    </dependency>
+
+
+    
+	
 	
  </dependencies>
 </project>

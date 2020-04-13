@@ -23,7 +23,7 @@
 			<param-value>
 				/WEB-INF/controller/member-controller.xml
 				/WEB-INF/controller/spring-servlet.xml
-				/WEB-INF/controller/food-controller.xml
+				/WEB-INF/controller/decide-controller.xml
 			</param-value>
 		</init-param>
 

@@ -9,14 +9,15 @@
 	<!--typeAlies세팅 : sql에서 자주 사용하는 (DTO)클래스 경로 줄여쓰기 위해 지정--> 
  	<typeAliases>
  		<typeAlias type="member.model.vo.MemberVo" alias="MemberVo"/>
+ 		<typeAlias type="decide.model.vo.CrawlingVo" alias="CrawlingVO"/>
  	</typeAliases>
 
   
   	<!-- 매퍼경로세팅 sql 쿼리문이 작성되는 xml 파일들의 경로 설정 -->
   	<mappers>
   		<mapper resource="/sqls/memberSQL.xml"/>
+  		<mapper resource="/sqls/crawlingSQL.xml"/>
   	</mappers>
-  	
   	
   
   </configuration>
