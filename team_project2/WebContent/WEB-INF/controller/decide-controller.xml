@@ -12,6 +12,15 @@
 <bean id="crawlingDAO" class="decide.model.dao.CrawlingDAO">
 	<property name="sqlSession" ref="sqlSession"/>
 </bean>
+<bean id="qandaDAO" class="decide.model.dao.QandaDAO">
+	<property name="sqlSession" ref="sqlSession"/>
+</bean>
+<bean id="historyDAO" class="decide.model.dao.HistoryDAO">
+	<property name="sqlSession" ref="sqlSession"/>
+</bean>
+<bean id="favListDAO" class="decide.model.dao.FavListDAO">
+	<property name="sqlSession" ref="sqlSession"/>
+</bean>
 
 <bean id="cr" class="decide.crawling.Crawling00" />
 

@@ -37,6 +37,9 @@ public class CrawlingDAO {
 		
 		return vo;
 	}
+	public void updateImg(CrawlingVo vo) throws Exception{
+		sqlSession.update("crawling.updateImg", vo);
+	}
 	
 	
 	

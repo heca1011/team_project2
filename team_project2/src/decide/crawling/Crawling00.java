@@ -1,4 +1,8 @@
 package decide.crawling;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -54,6 +58,9 @@ public class Crawling00 {
         }catch(NoSuchElementException n) {
         	n.printStackTrace();
         }
+        String img = null;
+        
+        
         String type = driver.findElementByXPath("//*[@class=\"txt_location\"]").getText();
         String score = driver.findElementByXPath("//*[@id=\"mArticle\"]/div[1]/div[1]/div[2]/div/div/a[1]/span[1]").getText();
  
@@ -67,6 +74,7 @@ public class Crawling00 {
         vo.setUrl(url);
         vo.setScore(score);
         
+        
         // vo에 담긴 데이터들 DB에 저장
         try {
         	crawlingDAO.insertBasic(vo);        	
@@ -79,6 +87,26 @@ public class Crawling00 {
         // trim사용하여 SQL에서 나눌수도 있긴하지만.. 일단은 나눠놓음
         getMenu(driver, url);
   
+        // 이미지주소 크롤링저장
+        try {
+        	driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
+        	driver.findElement(By.xpath("//*[@id='mArticle']/div[1]/div[1]/div[1]/a/span[2]")).click();
+        	driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
+        	String fileName = driver.findElementByXPath("//*[@class='view_image']/img").getAttribute("src");
+        	vo.setImg(fileName);
+        	crawlingDAO.updateImg(vo);
+        }catch(Exception e) {
+        	e.printStackTrace();      	
+        	try {
+        		driver.findElement(By.xpath("//*[@id='mArticle']/div[1]/div[1]/div[1]/a/span")).click();    
+        		String fileName = driver.findElementByXPath("//*[@class='view_image']/img").getAttribute("src");
+        		vo.setImg(fileName);
+        		crawlingDAO.updateImg(vo);
+        	}catch(Exception t) {
+        		t.printStackTrace();
+        	}
+        }
+        
         // 탭 종료
         driver.close();
    
@@ -109,11 +137,6 @@ public class Crawling00 {
         		driver.findElement(mySelector).click();
         		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         	}
-        }catch(NoSuchElementException n){
-        	n.printStackTrace();
-        }
-   
-        try {
         	// 웹페이지에서 메뉴 가져오기
 	        mySelector = By.xpath("//*[@class=\'list_menu\']/li/div/span");
 	        List<WebElement> menu_list = driver.findElements(mySelector);
@@ -123,9 +146,10 @@ public class Crawling00 {
 	        
 			if( menu_list != null ) {
 				for(int i = 0; i < menu_list.size(); i++) {
-					menuList += menu_list.get(i).getText()+",";
 					if(i == menu_list.size()-1) {
 						menuList += menu_list.get(i).getText();
+					}else {
+						menuList += menu_list.get(i).getText()+",";						
 					}
 				}
 				vo.setMenu(menuList);
@@ -142,9 +166,10 @@ public class Crawling00 {
 			
 			if( menu_price != null ) {				
 				for(int i = 0; i < menu_price.size(); i++) {
-					priceList += menu_price.get(i).getText()+"원";
 					if(i == menu_price.size()-1) {
 						priceList += menu_price.get(i).getText();
+					}else {
+						priceList += menu_price.get(i).getText()+"원";						
 					}
 				}
 				vo.setPrice(priceList);

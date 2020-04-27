@@ -10,6 +10,8 @@
  	<typeAliases>
  		<typeAlias type="member.model.vo.MemberVo" alias="MemberVo"/>
  		<typeAlias type="decide.model.vo.CrawlingVo" alias="CrawlingVO"/>
+ 		<typeAlias type="decide.model.vo.HistoryVo" alias="historyVo"/>
+ 		<typeAlias type="decide.model.vo.FavListVO" alias="favListVO"/>
  	</typeAliases>
 
   
@@ -17,6 +19,9 @@
   	<mappers>
   		<mapper resource="/sqls/memberSQL.xml"/>
   		<mapper resource="/sqls/crawlingSQL.xml"/>
+  		<mapper resource="/sqls/qandaSQL.xml"/>
+  		<mapper resource="/sqls/historySQL.xml"/>
+  		<mapper resource="/sqls/favSQL.xml"/>
   	</mappers>
   	
   

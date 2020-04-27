@@ -11,6 +11,15 @@ public class CrawlingVo {
 	String menu;
 	String price;
 	String score;
+	String img;
+	
+	
+	public String getImg() {
+		return img;
+	}
+	public void setImg(String img) {
+		this.img = img;
+	}
 	public String getUrl() {
 		return url;
 	}

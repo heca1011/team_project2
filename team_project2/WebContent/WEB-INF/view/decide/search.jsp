@@ -1,24 +1,33 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="UTF-8">
 	<title>Insert title here</title>
+	
+	<style>
+		a:link { color: blue; text-decoration: none; }
+      	a:visited { color: purple; text-decoration: none; }
+      	a:hover { color: red; text-decoration: underline; }
+      	a:active { color: black;}
+      	a{margin-left:2px; margin-right:2px;}
+	</style>
 </head>
-<body>
-	<div id="map" style="width:100%;height:350px;"></div>
-	<form onsubmit="searchPlaces(); return false;">
-     	키워드 : <input type="text" id="keyword" size="15"> 
-     	<button type="submit">검색하기</button> 
-    </form>
-    <div id= "menu_wrap">
+<body onload="searchPlaces(); return false;">
+<jsp:include page="/WEB-INF/view/decide/header.jsp"></jsp:include>
+<br>
+ <div class="sel_body">
+    <div id= "menu_wrap" style="height:0px;">
 	    <ul id="placesList"></ul>
-	    <div id="pagination"></div>
+	    <div id="pagination" style="margin-left:200px;"></div>
     </div>
-	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b912f2336605cfb19bb1b1f6eaad81f4&libraries=services
-"></script>
+	<div id="map" style="left : 700px; width:800px; height:550px; " ></div>
+	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b912f2336605cfb19bb1b1f6eaad81f4&libraries=services"></script>
+</div>
 	<script>
+		
+	
 		var markers = []; // 마커를 담을 배열
 		
 		var locPosition; // 사용자의 위치를 담을 변수
@@ -26,7 +35,8 @@
 		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 		    mapOption = { 
 		        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-		        level: 3 // 지도의 확대 레벨 
+		        level: 3, // 지도의 확대 레벨 
+		        size : 7 // 최대 검색횟수
 		    }; 
 	
 		var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
@@ -64,7 +74,7 @@
 
 		// 키워드검색 요청
 		function searchPlaces(){
-			var keyword = document.getElementById('keyword').value;
+			var keyword = "${keyword}"
 			
 			if (!keyword.replace(/^\s+|\s+$/g, '')) {
 		        alert('키워드를 입력해주세요!');
@@ -73,14 +83,17 @@
 			
 			var searchOptions= {
 	    		location: locPosition,
-				radius: 1000 // 검색범위설정 (m단위)
-			
+				radius: 1000, // 검색범위설정 (m단위)
+				size : 7
 	    	}
 			
-			// 주변범위검색
-			places.keywordSearch(keyword,placesSearch,searchOptions);
-			// 지역명까지 함께 검색
-			//places.keywordSearch(keyword,placesSearch);
+			if("${check}" != 1){
+				// 주변범위검색
+				places.keywordSearch(keyword,placesSearch,searchOptions);				
+			}else if("${check}"== 1){
+				// 지역명까지 함께 검색
+				places.keywordSearch(keyword,placesSearch);				
+			}
 			
 			
 		}
@@ -203,14 +216,16 @@
 		                '   <h5>' + places.place_name + '</h5>';
 
 		    if (places.road_address_name) {
-		        itemStr += '    <span>\n' + places.road_address_name + '</span>' +
-		                    '   <span class="jibun gray">\n' +  places.address_name  + '</span>';
+		        itemStr += '    <span>' + places.road_address_name + '</span>' +
+		                    '   <span class="jibun gray">' +  places.address_name  + '</span>';
 		    } else {
-		        itemStr += '    <span>\n' +  places.address_name  + '</span>'; 
+		        itemStr += '    <span>' +  places.address_name  + '</span>'; 
 		    }
 		                 
-		      itemStr += '  <span class="tel">\n' + places.phone  + '</span>' +
-		                '</div>';           
+		      itemStr += '  <span class="tel">' + places.phone  + '</span>' +
+		                '</div>' + '<form action="foodSelect.com">' +
+		                '<input type="hidden" name="url" value="'+places.place_url+'">'
+		                + '<input type="submit" value="상세보기">' + '<form/>';           
 
 		    el.innerHTML = itemStr;
 		    el.className = 'item';

@@ -34,4 +34,8 @@
   		<select id="selectAll" parameterType="String" resultType="CrawlingVo">
   			select * from foodinfo where url = #{url}
   		</select>
+  		
+  		<update id="updateImg" parameterType="CrawlingVO">
+  			update foodInfo set img=#{img} where url = #{url}
+  		</update>
   </mapper>

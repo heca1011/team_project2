@@ -9,7 +9,6 @@
 	http://www.springframework.org/schema/context/spring-context-4.3.xsd"
 	>
 
-
 	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/view/"/>
 		<property name="suffix" value=".jsp"/>
